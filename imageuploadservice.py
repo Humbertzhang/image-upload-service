@@ -2,7 +2,8 @@
 import os
 from flask import Flask, request, send_from_directory,render_template
 import time
-UPLOAD_FOLDER=r'/home/images/' #文件要存在哪一个位置
+UPLOAD_FOLDER=os.getcwd() + '/images'
+#UPLOAD_FOLDER=r'/home/images/' #文件要存在哪一个位置
 ALLOWED_EXTENSIONS=set(['png','jpg','jpeg']) #可以选择的文件拓展名 
 
 app = Flask(__name__)
@@ -28,7 +29,8 @@ def upload_picture():
         uploadtime ='.'.join(li)   #用join连在一起. 因为如果文件没有后缀名浏览器不会直接显示而是会下载
         if file and allowed_file(file.filename):
                 file.save(os.path.join(UPLOAD_FOLDER,uploadtime)) #保存在某个路径
-                url = os.path.join(UPLOAD_FOLDER,uploadtime)
+                global url
+                url = os.path.join('/pictures/',uploadtime)
                 return url
 
         else:
